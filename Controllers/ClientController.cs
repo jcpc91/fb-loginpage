@@ -16,8 +16,23 @@ namespace fb_loginpage.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return this.Ok();
+             var resultBookList = new Book[] {
+                new Book { Author = "Ray Bradbury",Title = "Fahrenheit 451" },
+                new Book { Author = "Gabriel García Márquez", Title = "One Hundred years of Solitude" },
+                new Book { Author = "George Orwell", Title = "1984" },
+                new Book { Author = "Anais Nin", Title = "Delta of Venus" }
+            };
+
+            return Json(resultBookList);
         }
+
+        [HttpGet("me")]
+        public IActionResult GetMe(){
+            
+            var q  = this.User.Claims.Select(s => new {s.Type, s.Value});
+            return this.Json(q);
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -35,5 +50,13 @@ namespace fb_loginpage.Controllers
         public void Delete(int id)
         {
         }
+    }
+
+
+    public class Book
+    {
+      public string Author { get; set; }
+      public string Title { get; set; }
+      public bool AgeRestriction { get; set; }
     }
 }
